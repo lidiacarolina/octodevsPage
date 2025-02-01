@@ -1,29 +1,453 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>OctoDevs 🐙</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelForge Games</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #1a1a1a;
+            color: white;
+        }
+
+        header {
+            padding: 30px;
+            background: #000;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2.5em;
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .carousel-section {
+            margin: 80px 0;
+            padding: 0 60px;
+        }
+
+        .carousel-container {
+            position: relative;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .carousel-title {
+            margin-bottom: 40px;
+            font-size: 2em;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .carousel {
+            display: flex;
+            gap: 30px;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            padding: 20px 0;
+        }
+
+        .carousel-item {
+            flex: 0 0 calc(33.333% - 20px);
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            min-width: 400px;
+        }
+
+        .carousel-item:hover {
+            transform: scale(1.02);
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .game-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            color: white;
+        }
+
+        .game-title {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .game-description {
+            font-size: 0.9em;
+            opacity: 0.8;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .nav-button:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-button.prev {
+            left: -70px;
+        }
+
+        .nav-button.next {
+            right: -70px;
+        }
+
+        .team-section {
+            max-width: 1200px;
+            margin: 150px auto 100px;
+            padding: 50px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            display: flex;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .team-photo {
+            flex: 0 0 400px;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .team-photo img {
+            width: 100%;
+            height: auto;
+        }
+
+        .about-us {
+            flex: 1;
+        }
+
+        .about-us h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .game-actions {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: translateY(-10px);
+        }
+
+        .carousel-item:hover .game-actions {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .action-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .action-btn:hover {
+            background: #4CAF50;
+            transform: scale(1.1);
+        }
+
+        .action-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        @media (max-width: 1200px) {
+            .carousel-section {
+                padding: 0 30px;
+            }
+            
+            .nav-button {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .nav-button.prev {
+                left: -40px;
+            }
+            
+            .nav-button.next {
+                right: -40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .carousel-item {
+                flex: 0 0 100%;
+                min-width: 300px;
+            }
+            
+            .game-info {
+                padding: 20px;
+            }
+            
+            .team-section {
+                flex-direction: column;
+                text-align: center;
+                margin: 100px 20px;
+                padding: 30px;
+            }
+            
+            .team-photo {
+                flex: 0 0 300px;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>OctoDevs</h1>
+        <a href="#" class="logo">PixelForge</a>
     </header>
-    <div id="sobre">
-        <p>Grupo de gamedev do Inatel</p>
-    </div>
-    <div id="jogos">
-        <div class="card">
 
+    <!-- Main Games Carousel -->
+    <section class="carousel-section">
+        <h2 class="carousel-title">Main Games</h2>
+        <div class="carousel-container">
+            <button class="nav-button prev">❮</button>
+            <div class="carousel main-games">
+                <!-- Repeat this block for each game -->
+                <a href="#" class="carousel-item" data-download="game1.zip" data-link="https://game1.com">
+                    <img src="jogo1.jpg" alt="Game 1">
+                    <div class="game-actions">
+                        <button class="action-btn download-btn" title="Download">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                            </svg>
+                        </button>
+                        <button class="action-btn external-btn" title="Visit Page">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Epic Adventure</h3>
+                        <p class="game-description">Embark on a journey through magical realms...</p>
+                    </div>
+                </a>
+                <!-- Add more game items here -->
+                <a href="#" class="carousel-item" data-download="game1.zip" data-link="https://game1.com">
+                    <img src="https://via.placeholder.com/800x500" alt="Game 1">
+                    <div class="game-actions">
+                        <button class="action-btn download-btn" title="Download">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                            </svg>
+                        </button>
+                        <button class="action-btn external-btn" title="Visit Page">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Epic Adventure</h3>
+                        <p class="game-description">Embark on a journey through magical realms...</p>
+                    </div>
+                </a>
+                <a href="#" class="carousel-item" data-download="game1.zip" data-link="https://game1.com">
+                    <img src="https://via.placeholder.com/800x500" alt="Game 1">
+                    <div class="game-actions">
+                        <button class="action-btn download-btn" title="Download">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                            </svg>
+                        </button>
+                        <button class="action-btn external-btn" title="Visit Page">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Epic Adventure</h3>
+                        <p class="game-description">Embark on a journey through magical realms...</p>
+                    </div>
+                </a>
+                <a href="#" class="carousel-item" data-download="game1.zip" data-link="https://game1.com">
+                    <img src="https://via.placeholder.com/800x500" alt="Game 1">
+                    <div class="game-actions">
+                        <button class="action-btn download-btn" title="Download">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                            </svg>
+                        </button>
+                        <button class="action-btn external-btn" title="Visit Page">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Epic Adventure</h3>
+                        <p class="game-description">Embark on a journey through magical realms...</p>
+                    </div>
+                </a>
+            </div>
+            <button class="nav-button next">❯</button>
         </div>
-    </div>
+    </section>
 
-    <footer>
-        <div id="contato">
-            <p>Contato</p>
-            <p>Formas de entrar em contato conosco.</p>
+    <!-- Repeat carousel sections for Minigames and Other Games -->
+    <!-- Add similar structure for Minigames and Other Projects sections -->
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="team-photo">
+            <img src="https://via.placeholder.com/400x500" alt="Our Team">
         </div>
-    </footer>
-    
+        <div class="about-us">
+            <h2>About Our Team</h2>
+            <p>We are PixelForge Games - a passionate collective of game developers, artists, and storytellers dedicated to creating immersive gaming experiences. With over a decade of combined experience, we push the boundaries of interactive entertainment while staying true to what makes games fun.</p>
+        </div>
+    </section>
+
+    <script>
+        document.querySelectorAll('.carousel-item').forEach(item => {
+            const downloadBtn = item.querySelector('.download-btn');
+            const externalBtn = item.querySelector('.external-btn');
+            
+            // Get URLs from data attributes
+            const downloadUrl = item.dataset.download;
+            const externalUrl = item.dataset.link;
+
+            downloadBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if(confirm(`Download ${downloadUrl}?`)) {
+                    window.location.href = downloadUrl;
+                }
+            });
+
+            externalBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.open(externalUrl, '_blank');
+            });
+        });
+
+        // Prevent card click when clicking buttons
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        });
+
+        document.querySelectorAll('.carousel-container').forEach(container => {
+            const carousel = container.querySelector('.carousel');
+            const prevBtn = container.querySelector('.prev');
+            const nextBtn = container.querySelector('.next');
+            const items = carousel.querySelectorAll('.carousel-item');
+            
+            const itemWidth = items[0].offsetWidth + 
+                parseInt(window.getComputedStyle(carousel).gap.replace('px', ''));
+
+            nextBtn.addEventListener('click', () => {
+                carousel.scrollBy({
+                    left: itemWidth * 3,
+                    behavior: 'smooth'
+                });
+            });
+
+            prevBtn.addEventListener('click', () => {
+                carousel.scrollBy({
+                    left: -itemWidth * 3,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Handle scroll boundaries
+            carousel.addEventListener('scroll', () => {
+                const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+                prevBtn.disabled = carousel.scrollLeft <= 0;
+                nextBtn.disabled = carousel.scrollLeft >= maxScroll - 1;
+            });
+
+            // Add keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    carousel.scrollBy({ left: -itemWidth * 3, behavior: 'smooth' });
+                } else if (e.key === 'ArrowRight') {
+                    carousel.scrollBy({ left: itemWidth * 3, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add smooth transition for hover effects
+        document.querySelectorAll('.carousel-item').forEach(item => {
+            item.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        });
+
+        // Prevent multiple scroll triggers during animation
+        function throttle(func, limit) {
+            let lastFunc;
+            let lastRan;
+            return function() {
+                const context = this;
+                const args = arguments;
+                if (!lastRan) {
+                    func.apply(context, args);
+                    lastRan = Date.now();
+                } else {
+                    clearTimeout(lastFunc);
+                    lastFunc = setTimeout(function() {
+                        if ((Date.now() - lastRan) >= limit) {
+                            func.apply(context, args);
+                            lastRan = Date.now();
+                        }
+                    }, limit - (Date.now() - lastRan));
+                }
+            };
+        }
+    </script>
 </body>
 </html>
